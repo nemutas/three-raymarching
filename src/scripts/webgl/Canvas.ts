@@ -2,15 +2,22 @@ import * as THREE from 'three'
 import { three } from './core/Three'
 import fragmentShader from './glsl/fragmentShader.glsl'
 import vertexShader from './glsl/vertexShader.glsl'
+import GUI from 'lil-gui'
 
 export class Canvas {
   private box: THREE.Mesh
   private screen: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>
 
+  private state = {
+    rotation: true,
+    translate: false,
+  }
+
   constructor(canvas: HTMLCanvasElement) {
     this.init(canvas)
     this.box = this.createBox()
     this.screen = this.createScreen()
+    this.createGui()
     three.animation(this.anime)
   }
 
@@ -20,6 +27,8 @@ export class Canvas {
     three.camera.position.z = 1.5
     three.controls.dampingFactor = 0.15
     three.controls.enableDamping = true
+
+    three.scene.add(new THREE.AxesHelper(0.5))
   }
 
   private createBox() {
@@ -49,15 +58,33 @@ export class Canvas {
     return mesh
   }
 
+  private createGui() {
+    const gui = new GUI()
+    gui.add(this.state, 'rotation')
+    gui.add(this.state, 'translate')
+    return gui
+  }
+
   private anime = () => {
     three.controls.update()
 
-    this.box.rotation.x += three.time.delta
-    this.box.rotation.y += three.time.delta * 0.5
-    this.box.rotation.z += three.time.delta * 0.3
+    if (this.state.rotation) {
+      this.box.rotation.x += three.time.delta
+      this.box.rotation.y += three.time.delta * 0.5
+      this.box.rotation.z += three.time.delta * 0.3
+    } else {
+      this.box.rotation.x = 0
+      this.box.rotation.y = 0
+      this.box.rotation.z = 0
+    }
 
-    // this.box.position.x = Math.sin(three.time.elapsed)
-    // this.box.position.y = Math.sin(three.time.elapsed * 3.0) * 0.2
+    if (this.state.translate) {
+      this.box.position.x = Math.sin(three.time.elapsed)
+      this.box.position.y = Math.sin(three.time.elapsed * 3.0) * 0.2
+    } else {
+      this.box.position.x = 0
+      this.box.position.y = 0
+    }
 
     const unifroms = this.screen.material.uniforms
     unifroms.uProjectionMatrixInverse.value = three.camera.projectionMatrixInverse
