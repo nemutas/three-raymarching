@@ -1,19 +1,16 @@
 import * as THREE from 'three'
 import { three } from './core/Three'
-import vertexShader from './glsl/vertexShader.glsl'
 import fragmentShader from './glsl/fragmentShader.glsl'
-import { EventDispatcher } from './core/EventDispatcher'
+import vertexShader from './glsl/vertexShader.glsl'
 
 export class Canvas {
   private box: THREE.Mesh
   private screen: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>
-  private events: EventDispatcher
 
   constructor(canvas: HTMLCanvasElement) {
     this.init(canvas)
     this.box = this.createBox()
     this.screen = this.createScreen()
-    this.events = this.createEvents()
     three.animation(this.anime)
   }
 
@@ -52,12 +49,6 @@ export class Canvas {
     return mesh
   }
 
-  private createEvents() {
-    const events = new EventDispatcher()
-    events.resize = () => {}
-    return events
-  }
-
   private anime = () => {
     three.controls.update()
 
@@ -80,6 +71,5 @@ export class Canvas {
 
   dispose() {
     three.dispose()
-    this.events.remove()
   }
 }
