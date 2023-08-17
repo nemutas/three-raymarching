@@ -1,10 +1,7 @@
-# ws-report7.2
-WebGL School 第7回目の講義課題です。
+# About
+This prototype uses threejs to synchronize Camera and Mesh positions with Raymarching drawings.<br />
+However, only the position of the mesh could not be perfectly synchronized. It shifted slightly.🤔
 
-https://nemutas.github.io/ws-report7-2/
+https://nemutas.github.io/three-raymarching/
 
-<img src='https://github.com/nemutas/ws-report7-2/assets/46724121/0e2ff600-74b9-4312-b41f-03ae73cba9da' width='700' />
-
-# Requirement
-
-<img src='https://github.com/nemutas/ws-report7/assets/46724121/630ec3c4-7ced-4d48-8768-413773bb4b9a' width='700' />
+<img src='https://github.com/nemutas/three-raymarching/assets/46724121/ced1701e-4c39-43f9-bbc4-bf619651af91' width='700' />
