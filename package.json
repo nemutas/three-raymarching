@@ -1,0 +1,26 @@
+{
+  "name": "ws-report7",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "tsc && vite build --emptyOutDir",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/three": "^0.155.0",
+    "autoprefixer": "^10.4.14",
+    "prettier": "^3.0.1",
+    "ress": "^5.0.2",
+    "sass": "^1.64.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-tsconfig-paths": "^4.2.0"
+  },
+  "dependencies": {
+    "three": "^0.155.0"
+  }
+}
