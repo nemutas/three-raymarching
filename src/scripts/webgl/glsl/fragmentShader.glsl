@@ -14,8 +14,9 @@ varying vec2 vUv;
 
 float sdf(vec3 p) {
   vec3 mp = m4v3Coord(uModelMatrix, p);
-  float box = sdBox(mp, vec3(0.25)) - 0.01;
-  float sp = sdSphere(mp, 0.32);
+  float r = 0.02;
+  float box = sdBox(mp, vec3(0.25 - r)) - r;
+  float sp = sdSphere(mp, 0.3);
   float final = opSmoothSubtraction(sp, box, 0.05);
   return final;
 }
@@ -23,28 +24,30 @@ float sdf(vec3 p) {
 #include './raymarching/normal.glsl'
 
 void main() {
+  vec3 ro = uCameraPosition;
   vec2 p = vUv * 2.0 - 1.0;
-
   vec4 ndcRay = vec4(p, 1.0, 1.0);
-  vec3 ray = (uViewMatrixInverse * uProjectionMatrixInverse * ndcRay).xyz;
-  ray = normalize(ray);
+  vec4 target = uViewMatrixInverse * uProjectionMatrixInverse * ndcRay;
+  vec3 ray = normalize(target.xyz / target.w - ro);
 
-  vec3 rayPos = uCameraPosition;
   float totalDist = 0.0;
-  float totalMax = length(uCameraPosition) * 2.0;
+  float totalMax = length(ro) * 2.0;
 
   for (int i = 0; i < 64; i++) {
+    vec3 rayPos = ro + totalDist * ray;
     float dist = sdf(rayPos);
     if (abs(dist) < 0.001 || totalMax < totalDist) break;
     totalDist += dist;
-    rayPos = uCameraPosition + totalDist * ray;
   }
 
   vec4 color = vec4(0);
+
   if (totalDist < totalMax) {
-    vec3 normal = calcNormal(rayPos);
+    vec3 p = ro + totalDist * ray;
+    vec3 normal = calcNormal(p);
     normal = m4v3Vec(uNormalMatrix, normal);
     color = vec4(normal, 1.0);
   }
+
   gl_FragColor = color;
 }
