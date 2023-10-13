@@ -1,6 +1,6 @@
 # About
 This prototype uses threejs to synchronize Camera and Mesh positions with Raymarching drawings.<br />
-However, only the position of the mesh could not be perfectly synchronized. It shifted slightly.🤔
+~~However, only the position of the mesh could not be perfectly synchronized. It shifted slightly.🤔~~
 
 https://nemutas.github.io/three-raymarching/
 
